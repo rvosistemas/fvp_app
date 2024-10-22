@@ -1,0 +1,38 @@
+services:
+  fastapi-backend:
+    build: ./backend
+    ports:
+      - "${FAST_API_PORT}:${FAST_API_PORT}"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=${POSTGRES_DATABASE_URL}
+    depends_on:
+      - postgres_db
+    command: >
+      bash -c "uvicorn app.main:app --host ${HOST} --port ${FAST_API_PORT}"
+
+
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "${ANGULAR_PORT}:${ANGULAR_PORT}"
+  #   volumes:
+  #     - ./frontend:/app
+  #   depends_on:
+  #     - fastapi-backend
+  #   command: npm start
+
+  postgres_db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_HOST_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
