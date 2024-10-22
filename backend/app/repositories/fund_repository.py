@@ -67,3 +67,22 @@ class FundRepository:
             raise HTTPException(status_code=404, detail="Fund not found")
         db.delete(fund)
         db.commit()
+
+    @staticmethod
+    @handle_db_exceptions
+    def deactivate_fund(db: Session, fund_id: str):
+        """
+        Deactivates a fund by setting its 'is_active' flag to False.
+
+        :param db: Database session
+        :param fund_id: ID of the fund to deactivate
+        :return: None
+        :raises HTTPException: If the fund is not found
+        """
+        fund = db.query(Fund).filter(Fund.id == fund_id).first()
+        if not fund:
+            raise HTTPException(status_code=404, detail="Fund not found")
+        fund.is_active = False
+        db.commit()
+        db.refresh(fund)
+        return fund
