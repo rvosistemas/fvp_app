@@ -10,7 +10,7 @@ class TransactionTypeEnum(str, Enum):
 
 class TransactionBase(BaseModel):
     type: TransactionTypeEnum
-    fund_id: str
+    fund_id: int
     amount: float
 
 
@@ -21,6 +21,7 @@ class TransactionCreate(TransactionBase):
 class TransactionResponse(TransactionBase):
     id: int
     is_active: bool
+    created_at: datetime
 
     class Config:
         from_attributes = True

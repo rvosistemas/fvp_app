@@ -7,7 +7,7 @@
         <tr>
           <th class="text-left py-3 px-4 uppercase font-semibold text-sm">ID</th>
           <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Type</th>
-          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Fund ID</th>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Fund Name</th>
           <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Amount</th>
           <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Date</th>
         </tr>
@@ -17,9 +17,9 @@
         <tr class="border-b hover:bg-gray-50">
           <td class="py-3 px-4">{{ transaction.id }}</td>
           <td class="py-3 px-4">{{ transaction.type | uppercase }}</td>
-          <td class="py-3 px-4">{{ transaction.fund_id }}</td>
+          <td class="py-3 px-4">{{ transaction.fund_name }}</td>
           <td class="py-3 px-4">{{ transaction.amount | currency }}</td>
-          <td class="py-3 px-4">{{ transaction.date | date:'short' }}</td>
+          <td class="py-3 px-4">{{ transaction.created_at | date:'short' }}</td>
         </tr>
         }
       </tbody>

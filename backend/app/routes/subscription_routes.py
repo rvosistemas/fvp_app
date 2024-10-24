@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException, Body
 from sqlalchemy.orm import Session
 from app.services.subscription_service import SubscriptionService
 from app.config.database import get_db
-from app.schemas.transaction_schema import TransactionResponse
 
 router = APIRouter()
 
