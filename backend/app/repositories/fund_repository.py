@@ -1,7 +1,7 @@
-from fastapi import HTTPException
+from http.client import HTTPException
 from sqlalchemy.orm import Session
 from app.models.Fund import Fund
-from app.utils.error_handler import handle_db_exceptions
+from app.utils.error_handler import handle_db_exceptions, get_fund_or_404
 
 
 class FundRepository:
@@ -31,10 +31,7 @@ class FundRepository:
         :return: Fund object or None if not found
         :raises HTTPException: If fund is not found
         """
-        fund = db.query(Fund).filter(Fund.id == fund_id).first()
-        if not fund:
-            raise HTTPException(status_code=404, detail="Fund not found")
-        return fund
+        return get_fund_or_404(db, fund_id)
 
     @staticmethod
     @handle_db_exceptions
@@ -46,6 +43,11 @@ class FundRepository:
         :param fund: Fund object to create
         :return: Created fund object
         """
+        existing_fund = db.query(Fund).filter(Fund.name == fund["name"]).first()
+        if existing_fund:
+            raise HTTPException(
+                status_code=400, detail="Fund with this name already exists"
+            )
         db.add(fund)
         db.commit()
         db.refresh(fund)
@@ -62,9 +64,7 @@ class FundRepository:
         :return: None
         :raises HTTPException: If fund is not found
         """
-        fund = db.query(Fund).filter(Fund.id == fund_id).first()
-        if not fund:
-            raise HTTPException(status_code=404, detail="Fund not found")
+        fund = get_fund_or_404(db, fund_id)
         db.delete(fund)
         db.commit()
 
@@ -79,9 +79,7 @@ class FundRepository:
         :return: None
         :raises HTTPException: If the fund is not found
         """
-        fund = db.query(Fund).filter(Fund.id == fund_id).first()
-        if not fund:
-            raise HTTPException(status_code=404, detail="Fund not found")
+        fund = get_fund_or_404(db, fund_id)
         fund.is_active = False
         db.commit()
         db.refresh(fund)

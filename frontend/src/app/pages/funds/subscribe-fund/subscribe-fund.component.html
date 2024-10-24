@@ -1,0 +1,43 @@
+<div class="container mx-auto p-6">
+  <h2 class="text-2xl font-bold mb-4">Subscribe to Fund</h2>
+  <form (ngSubmit)="subscribe()">
+    <!-- Fund selection -->
+    <div class="mb-4">
+      <label for="fundId" class="block text-gray-700 font-bold mb-2">Select Fund:</label>
+      <select [(ngModel)]="selectedFundId" name="fundId"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        @for(fund of funds; track fund.id) {
+        <option [value]="fund.id">{{ fund.name }}</option>
+        }
+      </select>
+      @if(showValidationErrors && !selectedFundId){
+      <p class="text-red-500 text-sm mt-1">Please select a fund.</p>
+      }
+    </div>
+
+    <!-- Amount input -->
+    <div class="mb-4">
+      <label for="amount" class="block text-gray-700 font-bold mb-2">Amount to Invest:</label>
+      <input [(ngModel)]="amount" name="amount" type="number"
+             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      @if(showValidationErrors && (amount == null || amount <= 0)){
+         <p class="text-red-500 text-sm mt-1">Amount must be greater than 0.</p>
+        }
+    </div>
+
+    <!-- User balance input -->
+    <div class="mb-4">
+      <label for="userBalance" class="block text-gray-700 font-bold mb-2">Your Balance:</label>
+      <p>{{ userBalance | currency:'COP ' }}</p>
+      @if(showValidationErrors && (userBalance == null || amount == null || userBalance < amount)){
+        <p class="text-red-500 text-sm mt-1">Insufficient balance.</p>
+        }
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+      Subscribe
+    </button>
+  </form>
+</div>

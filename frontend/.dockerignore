@@ -1,0 +1,23 @@
+# Ignorar dependencias locales
+node_modules
+dist
+
+# Ignorar archivos de configuración del editor
+.idea
+.vscode
+*.log
+
+# Ignorar carpetas de caché locales
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignorar todo el contenido de `build` si fuera necesario
+build
+
+# Ignorar el archivo Dockerfile si no necesitas copiarlo
+Dockerfile
+
+# Ignorar archivos de sistema y de configuraciones locales
+*.env
+*.DS_Store

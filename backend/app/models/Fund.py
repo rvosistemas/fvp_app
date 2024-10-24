@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Float
+from sqlalchemy import Column, String, Float, UniqueConstraint
 from app.models.Base import Base
 
 
@@ -8,3 +8,5 @@ class Fund(Base):
     name = Column(String, index=True)
     minimum_amount = Column(Float)
     category = Column(String)
+
+    __table_args__ = (UniqueConstraint("name", name="uq_fund_name"),)

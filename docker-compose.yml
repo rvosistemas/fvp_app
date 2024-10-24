@@ -1,27 +1,49 @@
+networks:
+  fvp_net:
+      driver: bridge
+
 services:
   fastapi-backend:
-    build: ./backend
+    hostname: ${FAST_API_HOSTNAME}
+    container_name: ${FAST_API_HOSTNAME}
+
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        FAST_API_WORKDIR: ${FAST_API_WORKDIR}
     ports:
       - "${FAST_API_PORT}:${FAST_API_PORT}"
     volumes:
-      - ./backend:/app
+      - ./backend:/${FAST_API_WORKDIR}
     environment:
       - DATABASE_URL=${POSTGRES_DATABASE_URL}
+      - PYTHONUNBUFFERED=1
     depends_on:
       - postgres_db
     command: >
-      bash -c "uvicorn app.main:app --host ${HOST} --port ${FAST_API_PORT}"
+      uvicorn ${FAST_API_WORKDIR}.main:${FAST_API_WORKDIR} --host ${HOST} --port ${FAST_API_PORT} --reload
+    networks:
+      - fvp_net
 
+  angular-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    hostname: ${ANGULAR_HOSTNAME}
+    container_name: ${ANGULAR_HOSTNAME}
+    ports:
+      - "${ANGULAR_PORT}:${ANGULAR_PORT}"
+    volumes:
+      - ./frontend:/${ANGULAR_WORKDIR}
+    working_dir: /${ANGULAR_WORKDIR}
+    depends_on:
+      - fastapi-backend
+    command: >
+      sh -c "npm install -g @angular/cli && npm install && ng analytics off && ng serve --host ${HOST} --port ${ANGULAR_PORT} --poll=500"
+    networks:
+      - fvp_net
 
-  # frontend:
-  #   build: ./frontend
-  #   ports:
-  #     - "${ANGULAR_PORT}:${ANGULAR_PORT}"
-  #   volumes:
-  #     - ./frontend:/app
-  #   depends_on:
-  #     - fastapi-backend
-  #   command: npm start
 
   postgres_db:
     image: postgres:13
@@ -33,6 +55,8 @@ services:
       - "${POSTGRES_HOST_PORT}:${POSTGRES_PORT}"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - fvp_net
 
 volumes:
   postgres_data:
