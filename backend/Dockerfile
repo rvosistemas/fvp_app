@@ -1,10 +1,13 @@
 FROM python:3.12-slim
 
-ARG FAST_API_WORKDIR
+WORKDIR /app
 
-WORKDIR /${FAST_API_WORKDIR}
+RUN apt-get update && apt-get install -y make && apt-get clean
 
-COPY requirements.txt /${FAST_API_WORKDIR}/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /${FAST_API_WORKDIR}/requirements.txt
+# Cambiado de backend/requirements.txt a solo requirements.txt
+COPY requirements.txt /app/requirements.txt
 
-COPY . /${FAST_API_WORKDIR}
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+
+# Cambiado de COPY backend /app a COPY . /app
+COPY . /app
