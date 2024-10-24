@@ -1,7 +1,9 @@
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Body
 from sqlalchemy.orm import Session
 from app.services.subscription_service import SubscriptionService
 from app.config.database import get_db
+from app.schemas.transaction_schema import TransactionResponse
 
 router = APIRouter()
 
@@ -48,3 +50,11 @@ def cancel_fund_subscription(
     except HTTPException as e:
         error_message = f"Failed to cancel subscription to fund {fund_id}: {e.detail}"
         return {"error": error_message}
+
+
+@router.get("/transactions/active", response_model=List[TransactionResponse])
+def get_active_subscriptions(db: Session = Depends(get_db)):
+    """
+    Get active fund subscriptions (transactions).
+    """
+    return SubscriptionService.get_active_subscriptions(db)

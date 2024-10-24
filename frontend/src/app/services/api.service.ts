@@ -19,9 +19,12 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/funds/subscribe`, body);
   }
 
+  getActiveSubscriptions(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/transactions/active`);
+  }
+
   cancelFundSubscription(fundId: string): Observable<any> {
-    const body = { fund_id: fundId };
-    return this.http.post(`${this.baseUrl}/funds/cancel`, body);
+    return this.http.post<any>(`${this.baseUrl}/funds/cancel`, { fund_id: fundId });
   }
 
   getTransactions(): Observable<any> {

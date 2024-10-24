@@ -20,6 +20,20 @@ class TransactionRepository:
         return db.query(Transaction).all()
 
     @staticmethod
+    def get_active_transactions(db: Session):
+        """
+        Get all active transactions (subscriptions).
+        """
+        return db.query(Transaction).filter_by(is_active=True).all()
+
+    @staticmethod
+    def get_active_subscription(db: Session, fund_id: int):
+        """
+        Get an active subscription for a specific fund.
+        """
+        return db.query(Transaction).filter_by(fund_id=fund_id, is_active=True).first()
+
+    @staticmethod
     @handle_db_exceptions
     def create_transaction(db: Session, transaction: Transaction):
         """

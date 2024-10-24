@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.models.Transaction import Transaction, TransactionType
@@ -45,20 +46,28 @@ class SubscriptionService:
         return TransactionResponse.from_orm(transaction)
 
     @staticmethod
-    def cancel_fund_subscription(db: Session, fund_id: str):
+    def get_active_subscriptions(db: Session) -> List[TransactionResponse]:
         """
-        Cancels a fund subscription.
-
-        :param db: Database session
-        :param fund_id: ID of the fund to cancel subscription
-        :return: The created Transaction object
+        Get all active subscriptions (transactions) and convert to Pydantic model.
         """
+        transactions = TransactionRepository.get_active_transactions(db)
 
-        fund = FundRepository.get_fund_by_id(db, fund_id)
+        return [
+            TransactionResponse.from_orm(transaction) for transaction in transactions
+        ]
 
-        transaction = Transaction(
-            fund_id=fund.id, type="cancellation", amount=fund.minimum_amount
-        )
-        TransactionRepository.create_transaction(db, transaction)
+    @staticmethod
+    def cancel_fund_subscription(db: Session, fund_id: int):
+        """
+        Cancels a fund subscription by marking the transaction as inactive.
+        """
+        transaction = TransactionRepository.get_active_subscription(db, fund_id)
 
-        return transaction
+        if not transaction:
+            raise HTTPException(
+                status_code=404, detail="No active subscription found for this fund"
+            )
+
+        transaction.is_active = False
+        db.commit()
+        return TransactionResponse.from_orm(transaction)
