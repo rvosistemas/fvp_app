@@ -1,0 +1,28 @@
+<div class="container mx-auto p-6">
+  <h2 class="text-2xl font-bold mb-4">Transactions List</h2>
+
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <table class="min-w-full bg-white">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">ID</th>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Type</th>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Fund ID</th>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Amount</th>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(transaction of transactions; track transaction.id) {
+        <tr class="border-b hover:bg-gray-50">
+          <td class="py-3 px-4">{{ transaction.id }}</td>
+          <td class="py-3 px-4">{{ transaction.type | uppercase }}</td>
+          <td class="py-3 px-4">{{ transaction.fund_id }}</td>
+          <td class="py-3 px-4">{{ transaction.amount | currency }}</td>
+          <td class="py-3 px-4">{{ transaction.date | date:'short' }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

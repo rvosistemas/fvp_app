@@ -1,8 +1,10 @@
 FROM python:3.12-slim
 
-WORKDIR /app
+ARG FAST_API_WORKDIR
 
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+WORKDIR /${FAST_API_WORKDIR}
 
-COPY . /app
+COPY requirements.txt /${FAST_API_WORKDIR}/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /${FAST_API_WORKDIR}/requirements.txt
+
+COPY . /${FAST_API_WORKDIR}

@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 from enum import Enum
 
@@ -11,7 +12,6 @@ class TransactionBase(BaseModel):
     type: TransactionTypeEnum
     fund_id: str
     amount: float
-    date: str
 
 
 class TransactionCreate(TransactionBase):
@@ -19,8 +19,8 @@ class TransactionCreate(TransactionBase):
 
 
 class TransactionResponse(TransactionBase):
-    id: str
+    id: int
     is_active: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True

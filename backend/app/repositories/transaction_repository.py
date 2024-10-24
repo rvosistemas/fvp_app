@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.Transaction import Transaction
+from app.models.Transaction import Transaction, TransactionType
 from app.utils.error_handler import handle_db_exceptions
 
 
@@ -33,3 +33,23 @@ class TransactionRepository:
         db.commit()
         db.refresh(transaction)
         return transaction
+
+    @staticmethod
+    @handle_db_exceptions
+    def is_fund_already_subscribed(db: Session, fund_id: str) -> bool:
+        """
+        Checks if there is an active subscription to the given fund.
+
+        :param db: Database session
+        :param fund_id: ID of the fund
+        :return: True if there is an active subscription, False otherwise
+        """
+        return (
+            db.query(Transaction)
+            .filter(
+                Transaction.fund_id == fund_id,
+                Transaction.type == TransactionType.SUBSCRIPTION,
+            )
+            .first()
+            is not None
+        )

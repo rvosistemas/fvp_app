@@ -12,8 +12,8 @@ class FundCreate(FundBase):
 
 
 class FundResponse(FundBase):
-    id: str
+    id: int
     is_active: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True

@@ -1,0 +1,17 @@
+<div class="container mx-auto p-6">
+  <h2 class="text-2xl font-bold mb-4">Cancel Fund Subscription</h2>
+  <form (ngSubmit)="cancel()">
+    <div class="mb-4">
+      <label for="fundId" class="block text-gray-700 font-bold mb-2">Select Fund to Cancel:</label>
+      <select [(ngModel)]="selectedFundId" name="fundId"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        @for(fund of funds; track fund.id){
+        <option [value]="fund.id">{{ fund.name }}</option>
+        }
+      </select>
+    </div>
+    <button type="submit"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel
+      Subscription</button>
+  </form>
+</div>
