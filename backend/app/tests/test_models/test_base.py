@@ -1,5 +1,5 @@
 import pytest
-from app.models.Base import Base
+from ...models.Base import Base
 
 
 def test_base_deactivate():

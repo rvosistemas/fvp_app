@@ -20,7 +20,7 @@ services:
     ports:
       - "${FAST_API_PORT}:${FAST_API_PORT}"
     volumes:
-      - ./backend/app:/app/app  # Modificado
+      - ./backend:/app  # Modificado
     environment:
       - DATABASE_URL=${POSTGRES_DATABASE_URL}
       - PYTHONUNBUFFERED=1

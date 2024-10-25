@@ -25,15 +25,9 @@ MODULE = models
 
 t:
 	@echo "Executing..."
-	PYTHONPATH=/app pytest --cov=app/$(MODULE)/ \
-	app/tests/test_$(MODULE)/ --cov-config=.coveragerc --cov-report=term-missing -x -s -W \
-	ignore::DeprecationWarning
-
-# t:
-# 	@echo "Executing..."
-# 	pytest --cov=app/$(MODULE)/ \
-# 	app/tests/test_$(MODULE)/ --cov-config=.coveragerc --cov-report term-missing -x -s -W \
-# 	ignore::DeprecationWarning -o cache_dir=/tmp/application/cache
+	pytest --cov=app/$(MODULE)/ \
+	app/tests/test_$(MODULE)/ --cov-config=.coveragerc --cov-report term-missing -x -s -W \
+	ignore::DeprecationWarning -o cache_dir=/tmp/application/cache
 
 # m:
 # 	@echo "Executing..."

@@ -1,8 +1,8 @@
 import datetime
+import enum
 import uuid
 from sqlalchemy import Column, String, Float, Enum, DateTime, func
-from app.models.Base import Base
-import enum
+from .Base import Base
 
 
 class TransactionType(enum.Enum):

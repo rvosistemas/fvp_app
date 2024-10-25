@@ -1,5 +1,5 @@
 import pytest
-from app.models.Transaction import Transaction
+from ...models.Transaction import Transaction
 
 
 def test_transaction_generate_code():

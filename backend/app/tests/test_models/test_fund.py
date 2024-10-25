@@ -1,5 +1,5 @@
 import pytest
-from app.models.Fund import Fund
+from ...models.Fund import Fund
 
 
 def almost_equal(a, b, tolerance=0.0001):
