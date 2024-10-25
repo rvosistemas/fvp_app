@@ -2,12 +2,12 @@ services:
   angular-frontend:
     container_name: angular-frontend
     build:
-      context: ./frontend  # Modificado
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "${ANGULAR_PORT}:${ANGULAR_PORT}"
     volumes:
-      - ./frontend/src:/app/src  # Modificado
+      - ./frontend/src:/app/src
     networks:
       - fvp_net
     command: >

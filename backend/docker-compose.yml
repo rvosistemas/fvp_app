@@ -15,12 +15,12 @@ services:
   fastapi-backend:
     container_name: fastapi-backend
     build:
-      context: ./backend  # Modificado
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "${FAST_API_PORT}:${FAST_API_PORT}"
     volumes:
-      - ./backend:/app  # Modificado
+      - ./backend:/app
     environment:
       - DATABASE_URL=${POSTGRES_DATABASE_URL}
       - PYTHONUNBUFFERED=1
