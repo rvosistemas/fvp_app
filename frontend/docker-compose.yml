@@ -8,6 +8,7 @@ services:
       - "${ANGULAR_PORT}:${ANGULAR_PORT}"
     volumes:
       - ./frontend/src:/app/src
+      - ./coverage-local:/app/coverage/frontend
     networks:
       - fvp_net
     command: >
