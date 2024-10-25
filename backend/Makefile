@@ -29,6 +29,11 @@ t:
 	app/tests/test_$(MODULE)/ --cov-config=.coveragerc --cov-report term-missing -x -s -W \
 	ignore::DeprecationWarning -o cache_dir=/tmp/application/cache
 
+a:
+	@echo "Executing..."
+	pytest --cov=app/ \
+	app/tests/ --cov-config=.coveragerc --cov-report term-missing -x -s -W \
+	ignore::DeprecationWarning -o cache_dir=/tmp/application/cache
 # m:
 # 	@echo "Executing..."
 # 	export DJANGO_SETTINGS_MODULE=project.settings;\

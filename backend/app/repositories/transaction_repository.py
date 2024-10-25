@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.models.Transaction import Transaction, TransactionType
-from app.utils.error_handler import handle_db_exceptions
+from ..models.Transaction import Transaction, TransactionType
+from ..utils.error_handler import handle_db_exceptions
 
 
 class TransactionRepository:

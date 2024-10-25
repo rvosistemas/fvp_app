@@ -2,7 +2,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
-from app.models.Fund import Fund
+from ..models.Fund import Fund
 
 
 def handle_db_exceptions(func):
