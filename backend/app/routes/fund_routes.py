@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Body, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.services.fund_service import (
+from ..services.fund_service import (
     get_funds,
     get_fund_by_id,
     create_fund,
     delete_fund,
     deactivate_fund,
 )
-from app.schemas.fund_schema import FundCreate, FundResponse
-from app.docs.fund_docs import fund_create_example, fund_responses
-from app.config.database import get_db
+from ..schemas.fund_schema import FundCreate, FundResponse
+from ..docs.fund_docs import fund_create_example, fund_responses
+from ..config.database import get_db
 
 router = APIRouter()
 

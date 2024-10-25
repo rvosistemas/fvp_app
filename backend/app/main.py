@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import fund_routes, transaction_routes, subscription_routes
+from .routes import fund_routes, transaction_routes, subscription_routes
 
 app = FastAPI()
 

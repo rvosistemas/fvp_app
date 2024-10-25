@@ -1,8 +1,8 @@
 import datetime
 from sqlalchemy.orm import Session
-from app.models.Transaction import Transaction
-from app.repositories.transaction_repository import TransactionRepository
-from app.repositories.fund_repository import FundRepository
+from ..models.Transaction import Transaction
+from ..repositories.transaction_repository import TransactionRepository
+from ..repositories.fund_repository import FundRepository
 
 
 def get_all_transactions(db: Session):
