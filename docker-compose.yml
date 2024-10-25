@@ -1,62 +1,17 @@
-networks:
-  fvp_net:
-      driver: bridge
-
 services:
-  fastapi-backend:
-    hostname: ${FAST_API_HOSTNAME}
-    container_name: ${FAST_API_HOSTNAME}
-
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-      args:
-        FAST_API_WORKDIR: ${FAST_API_WORKDIR}
+  nginx:
+    image: nginx:latest
+    container_name: nginx-proxy
     ports:
-      - "${FAST_API_PORT}:${FAST_API_PORT}"
+      - "${NGINX_PORT}:${NGINX_PORT}"
     volumes:
-      - ./backend:/${FAST_API_WORKDIR}
-    environment:
-      - DATABASE_URL=${POSTGRES_DATABASE_URL}
-      - PYTHONUNBUFFERED=1
-    depends_on:
-      - postgres_db
-    command: >
-      uvicorn ${FAST_API_WORKDIR}.main:${FAST_API_WORKDIR} --host ${HOST} --port ${FAST_API_PORT} --reload
-    networks:
-      - fvp_net
-
-  angular-frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    hostname: ${ANGULAR_HOSTNAME}
-    container_name: ${ANGULAR_HOSTNAME}
-    ports:
-      - "${ANGULAR_PORT}:${ANGULAR_PORT}"
-    volumes:
-      - ./frontend:/${ANGULAR_WORKDIR}
-    working_dir: /${ANGULAR_WORKDIR}
+      - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - fastapi-backend
-    command: >
-      sh -c "npm install -g @angular/cli && npm install && ng analytics off && ng serve --host ${HOST} --port ${ANGULAR_PORT} --poll=500"
+      - angular-frontend
     networks:
       - fvp_net
 
-
-  postgres_db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "${POSTGRES_HOST_PORT}:${POSTGRES_PORT}"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - fvp_net
-
-volumes:
-  postgres_data:
+networks:
+  fvp_net:
+    driver: bridge

@@ -1,7 +1,7 @@
-from http.client import HTTPException
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from app.models.Fund import Fund
-from app.utils.error_handler import handle_db_exceptions, get_fund_or_404
+from ..models.Fund import Fund
+from ..utils.error_handler import handle_db_exceptions, get_fund_or_404
 
 
 class FundRepository:
@@ -43,7 +43,8 @@ class FundRepository:
         :param fund: Fund object to create
         :return: Created fund object
         """
-        existing_fund = db.query(Fund).filter(Fund.name == fund["name"]).first()
+        # existing_fund = db.query(Fund).filter(Fund.name == fund["name"]).first()
+        existing_fund = db.query(Fund).filter(Fund.name == fund.name).first()
         if existing_fund:
             raise HTTPException(
                 status_code=400, detail="Fund with this name already exists"

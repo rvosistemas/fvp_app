@@ -2,10 +2,10 @@ from datetime import datetime
 from typing import List
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from app.models.Transaction import Transaction, TransactionType
-from app.repositories.fund_repository import FundRepository
-from app.repositories.transaction_repository import TransactionRepository
-from app.schemas.transaction_schema import TransactionResponse
+from ..models.Transaction import Transaction, TransactionType
+from ..repositories.fund_repository import FundRepository
+from ..repositories.transaction_repository import TransactionRepository
+from ..schemas.transaction_schema import TransactionResponse
 
 
 class SubscriptionService:

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.models.Fund import Fund
-from app.repositories.fund_repository import FundRepository
+from ..models.Fund import Fund
+from ..repositories.fund_repository import FundRepository
 
 
 def get_funds(db: Session):

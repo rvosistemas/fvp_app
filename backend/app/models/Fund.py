@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Float, UniqueConstraint
-from app.models.Base import Base
+from .Base import Base
 
 
 class Fund(Base):
