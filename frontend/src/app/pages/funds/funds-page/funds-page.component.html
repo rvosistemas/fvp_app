@@ -1,0 +1,26 @@
+<div class="container mx-auto p-6">
+  <h2 class="text-2xl font-bold mb-4">Funds List</h2>
+
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <table class="min-w-full bg-white">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">ID</th>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Name</th>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Minimum Amount</th>
+          <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(fund of funds; track fund.id) {
+        <tr class="border-b hover:bg-gray-50">
+          <td class="py-3 px-4">{{ fund.id }}</td>
+          <td class="py-3 px-4">{{ fund.name }}</td>
+          <td class="py-3 px-4">{{ fund.minimum_amount | currency }}</td>
+          <td class="py-3 px-4">{{ fund.category }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

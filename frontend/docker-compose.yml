@@ -1,0 +1,19 @@
+services:
+  angular-frontend:
+    container_name: angular-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${ANGULAR_PORT}:${ANGULAR_PORT}"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./coverage-local:/app/coverage/frontend
+    networks:
+      - fvp_net
+    command: >
+      sh -c "npm install -g @angular/cli && npm install && ng analytics off && ng serve --host ${HOST} --port ${ANGULAR_PORT} --poll=500"
+
+networks:
+  fvp_net:
+    driver: bridge
