@@ -4,7 +4,7 @@ services:
     image: nginx:latest
     container_name: nginx-proxy
     ports:
-      - "80:80"
+      - "${NGINX_PORT}:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
@@ -12,6 +12,37 @@ services:
       - angular-frontend
     networks:
       - fvp_net
+
+  fastapi-backend:
+    container_name: fastapi-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "${FAST_API_PORT}:${FAST_API_PORT}"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env.production
+    networks:
+      - fvp_net
+    command: >
+      uvicorn app.main:app --host 0.0.0.0 --port ${FAST_API_PORT}
+
+  angular-frontend:
+    container_name: angular-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${ANGULAR_PORT}:${ANGULAR_PORT}"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./coverage-local:/app/coverage/frontend
+    networks:
+      - fvp_net
+    command: >
+      sh -c "npm install -g @angular/cli && npm install && ng analytics off && ng serve --host ${HOST} --port ${ANGULAR_PORT} --poll=500"
 
 networks:
   fvp_net:

@@ -1,0 +1,23 @@
+# Usar una imagen Node para construir el proyecto
+FROM node:21 AS build
+
+# Establecer el directorio de trabajo
+WORKDIR /app
+
+# Instalar dependencias y construir la aplicación
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build --configuration production
+
+# Utilizar una imagen más ligera para servir el contenido estático
+FROM nginx:latest AS server
+
+# Copiar los archivos de construcción de Angular a la carpeta de Nginx
+COPY --from=build /app/dist/frontend /usr/share/nginx/html
+
+# Exponer el puerto 80 para Nginx
+EXPOSE 80
+
+# Comando de inicio para Nginx
+CMD ["nginx", "-g", "daemon off;"]
